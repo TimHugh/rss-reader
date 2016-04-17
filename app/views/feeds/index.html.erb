@@ -1,0 +1,6 @@
+<% @feeds.each do |feed| %>
+  <div class="feed item">
+    <span class="item__name"><%= link_to feed.name, feed_items_path(feed_id: feed.id) %></span>
+    <span class="feed_url item__property"><%= feed.url %></span>
+  </div>
+<% end %>
