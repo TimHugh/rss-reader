@@ -1,6 +1,12 @@
-<% @feeds.each do |feed| %>
-  <div class="feed item">
-    <span class="item__name"><%= link_to feed.name, feed_items_path(feed_id: feed.id) %></span>
-    <span class="feed_url item__property"><%= feed.url %></span>
-  </div>
-<% end %>
+<div class="feeds-index">
+  <%= link_to "Home", feed_items_path %>
+
+  <% @feeds.each do |feed| %>
+    <div class="feed item">
+      <span class="item__name"><%= link_to feed.display_name, feed_items_path(feed_id: feed.id) %></span>
+      <span class="feed__unread item__text"><%= feed.feed_items.unread.count %> unread</span>
+    </div>
+  <% end %>
+
+  <%= link_to "Add", new_feed_path %>
+</div>

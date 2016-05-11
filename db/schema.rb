@@ -14,13 +14,19 @@
 ActiveRecord::Schema.define(version: 20160417062423) do
 
   create_table "feed_items", force: :cascade do |t|
-    t.string  "guid"
-    t.integer "feed_id"
+    t.string   "entry_id"
+    t.string   "title"
+    t.string   "url"
+    t.string   "workflow_state"
+    t.integer  "feed_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "feeds", force: :cascade do |t|
-    t.string "name"
-    t.string "url"
+    t.string   "name"
+    t.string   "url"
+    t.datetime "last_updated_at"
   end
 
 end

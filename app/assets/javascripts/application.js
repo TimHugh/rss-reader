@@ -12,5 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require_tree .
+
+$(function() {
+
+  $('.feed-item a').click(function(e) {
+    $(e.target).parents('.feed-item').addClass('read');
+  });
+
+});

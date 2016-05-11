@@ -10,10 +10,11 @@ class FeedsController < ApplicationController
   def create
     @feed = Feed.new(feed_params)
     if @feed.save
-      flash[:notice] = "#{@feed.name} successfully added!"
-      redirect_to :index
+      SynchronizeFeedsJob.perform_later(feed.id)
+      flash[:notice] = "New feed successfully added!"
+      redirect_to feeds_url
     else
-      flash[:error] = "Unable to add #{@feed.name}. See errors"
+      flash[:error] = "Unable to add new feed. #{@feed.errors.full_messages.join('. ')}"
       render :new
     end
   end
@@ -21,6 +22,6 @@ class FeedsController < ApplicationController
   private
 
   def feed_params
-    params.require(:feed).permit(:name, :url)
+    params.require(:feed).permit(:url)
   end
 end

@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+
+ a {
+   color: green;
+   text-decoration: none;
+
+   &:hover {
+     color: lighten(green, 10);
+   }
+ }
+
+.feed-item {
+  &.read &__title a {
+    color: #ccc;
+  }
+}

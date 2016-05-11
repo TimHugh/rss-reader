@@ -2,11 +2,16 @@ class FeedItemsController < ApplicationController
   before_action :load_feed_item, only: [:show, :update]
 
   def index
-    @feed_items = params[:feed_id] ? FeedItem.for_feed(params[:feed_id]) : FeedItem.all
+    @feed_items = if params[:feed_id]
+      FeedItem.where(feed_id: params[:feed_id])
+    else
+      FeedItem.unread
+    end
   end
 
   def show
-    @feed_item.read! unless params[:mark_read] == "false"
+    @feed_item.read! unless @feed_item.read?
+    redirect_to @feed_item.url
   end
 
   def update
@@ -18,7 +23,7 @@ class FeedItemsController < ApplicationController
   def unread!
     @feed_item.unread!
     flash[:notice] = "Item marked unread"
-    redirect_to :show
+    redirect_to 'index'
   end
 
   def load_feed_item

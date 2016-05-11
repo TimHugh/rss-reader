@@ -1,17 +1,19 @@
 class FeedItem < ActiveRecord::Base
+  include Workflow
+
   belongs_to :feed
 
-  scope :unread, -> { where(read: false) }
+  scope :unread, -> { where.not(workflow_state: :read) }
 
-  def self.for_feed(feed_id)
-    where(feed_id: feed_id)
-  end
-
-  def read!
-    update(read: true)
-  end
-
-  def unread!
-    update(unread: true)
+  workflow do
+    state :new do
+      event :read, transitions_to: :read
+    end
+    state :read do
+      event :unread, transitions_to: :unread
+    end
+    state :unread do
+      event :read, transitions_to: :read
+    end
   end
 end

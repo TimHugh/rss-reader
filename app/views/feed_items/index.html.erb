@@ -1,3 +1,13 @@
-<% @feed_items.each do |item| %>
-  <%= item.id %>
-<% end %>
+<div class="feed-items-index">
+  <%= link_to "Feeds", feeds_path %>
+
+  <div class="feed-items">
+    <% @feed_items.each do |item| %>
+      <div class="feed-item <%= 'read' if item.read? %>">
+        <span class="feed-item__feed-name"><%= item.feed.name %></span>
+        <span class="feed-item__title"><%= link_to item.title, item, target: '_blank' %></span>
+      </div>
+    <% end %>
+  </div>
+
+</div>
