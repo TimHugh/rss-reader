@@ -8,9 +8,11 @@ class SynchronizeFeedsJob < ActiveJob::Base
 
     def synchronize!(feed)
       feed_data = get_rss_data(feed)
-      feed.update_from_rss(feed_data)
-      feed.create_feed_items_from_rss(feed_data)
-      feed.update(last_updated_at: DateTime.now)
+      Feed.transaction do
+        feed.update_from_rss(feed_data)
+        feed.create_feed_items_from_rss(feed_data)
+        feed.update(last_updated_at: DateTime.now)
+      end
     end
 
     private
